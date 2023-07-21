@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .ad-container {
+            position: relative;
+            width: 728px;
+            height: 90px;
+            background-image: url("images/ad_background.png");
+            overflow: hidden;
+        }
+
+        .car-image {
+            position: absolute;
+            top: 0;
+            right: -200px; /* Starting position outside the screen */
+            height: 90px;
+            width: 200px;
+            transition: right 1s, transform 0.5s;
+        }
+
+        .car-image.flipped {
+            transform: rotateY(360deg);
+        }       
+
+
+        .join-image {
+            position: absolute;
+            top: -5px;
+            left: 728px; /* Starting position outside the screen */
+            height: 100px;
+            transition: left 1s;
+            cursor: pointer;
+        }
+
+        .slide-image.shake {
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(0); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .expanded-image .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius:50%;
+            background-color: #fff;
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;  }
+
+        .expanded-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .expanded-image.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .expanded-image img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .slide-image {
+            position: absolute;
+            top: -15px;
+            left: -300px; /* Starting position outside the screen */
+            height: auto;
+            transition: left 0.7s;
+        }
+
+        .slide-image.slide-in {
+            left: 300px; /* Adjust the value to control the stopping position */
+        }
+        .car-point {
+            position: absolute;
+            top: 50%;
+            right: -100px; /* Starting position outside the screen */
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            animation: blink 1.3s infinite;
+            transition: right 2s, transform 0.4s;
+            margin-right: 60px;
+        }
+        @keyframes blink {
+            0% { opacity: 0.4; }
+            50% { opacity: 0; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-container">
+        <img class="car-image" src="images/ad_full-shot-man.png" alt="Car">
+        <div class="car-point"></div>
+        <img class="join-image" src="images/ad_vodalogo.png" alt="Join">
+        <img class="slide-image" src="images/ad_Edancelogo.png" alt="Slide Image">
+    </div>
+
+ 
+
+    <div class="expanded-image">
+        <img src="images/ad_bgexpand.png" alt="Car Interior">
+        <button class="close-button">X</button>
+    </div>
+    
+
+    <script>
+        var carImage = document.querySelector('.car-image');
+        var joinImage = document.querySelector('.join-image');
+        var expandedImage = document.querySelector('.expanded-image');
+        var slideImage = document.querySelector('.slide-image');
+        var carPoint = document.querySelector('.car-point');
+        var closeButton = document.querySelector('.close-button');
+
+        // Animate the car point entering the ad
+        carPoint.style.right = '600px';
+        setTimeout(function() {
+            carPoint.style.right = '0';
+        }, 1000);
+
+        // Animate the car entering the ad
+        carImage.style.right = '728px';
+        setTimeout(function() {
+            carImage.style.right = '0';
+        }, 1000);
+
+        // Wait for 2 seconds before animating the join image
+        setTimeout(function() {
+            joinImage.style.left = '50px'; // Adjust the value to control when the join image starts moving
+            
+        }, 1000); // Adjust the value to control when the join image enters
+
+        // Start shaking the slide image after it stops
+        setTimeout(function() {
+                slideImage.classList.add('shake');
+            }, 2000); // Adjust the value to control when the slide image starts shaking
+            
+        // Flip the car image after 3 seconds to show the car logo
+        setTimeout(function() {
+            carImage.classList.add('flipped');
+        }, 3000);
+
+          // Expand the ad when hovering over the car image
+          carPoint.addEventListener('mouseover', function() {
+            expandedImage.classList.add('show');
+        });
+
+        // Close the expanded image when hovering out of the car image
+        carPoint.addEventListener('mouseout', function() {
+            expandedImage.classList.remove('show');
+        });
+
+        // Slide the image to the middle of the ad
+        setTimeout(function() {
+            slideImage.classList.add('slide-in');
+        }, 2000); // Adjust the value to control when the slide image starts sliding
+    </script>
+</body>
+</html>
